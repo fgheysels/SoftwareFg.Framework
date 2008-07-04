@@ -7,7 +7,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftwareFg.Framework.Infras
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftwareFg.Framework.EntityObjects", "SoftwareFg.Framework.EntityObjects\SoftwareFg.Framework.EntityObjects.csproj", "{02B3AE1E-D75D-402D-A13A-E76DF81087B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftwareFg.Framework.EntityObjects.Test", "SoftwareFg.Framework.EntityObjects.Test\SoftwareFg.Framework.EntityObjects.Test.csproj", "{77C2D69B-8AAD-4092-8003-D1509F29C6B4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftwareFg.Framework.EntityObjects.Tests", "SoftwareFg.Framework.EntityObjects.Test\SoftwareFg.Framework.EntityObjects.Tests.csproj", "{77C2D69B-8AAD-4092-8003-D1509F29C6B4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftwareFg.Framework.NHibernateUtils.Tests", "SoftwareFg.Framework.NHibernateUtils.Tests\SoftwareFg.Framework.NHibernateUtils.Tests.csproj", "{7E98C42A-7587-44BB-8601-4E12DF0ED2D3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +33,10 @@ Global
 		{77C2D69B-8AAD-4092-8003-D1509F29C6B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77C2D69B-8AAD-4092-8003-D1509F29C6B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77C2D69B-8AAD-4092-8003-D1509F29C6B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E98C42A-7587-44BB-8601-4E12DF0ED2D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E98C42A-7587-44BB-8601-4E12DF0ED2D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E98C42A-7587-44BB-8601-4E12DF0ED2D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E98C42A-7587-44BB-8601-4E12DF0ED2D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

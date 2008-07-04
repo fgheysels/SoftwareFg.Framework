@@ -8,8 +8,8 @@
     <ProjectGuid>{77C2D69B-8AAD-4092-8003-D1509F29C6B4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SoftwareFg.Framework.EntityObjects.Test</RootNamespace>
-    <AssemblyName>SoftwareFg.Framework.EntityObjects.Test</AssemblyName>
+    <RootNamespace>SoftwareFg.Framework.EntityObjects.Tests</RootNamespace>
+    <AssemblyName>SoftwareFg.Framework.EntityObjects.Tests</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

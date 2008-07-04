@@ -7,7 +7,7 @@ using NUnit.Framework;
 
 using SoftwareFg.Framework.EntityObjects;
 
-namespace SoftwareFg.Framework.EntityObjects.Test
+namespace SoftwareFg.Framework.EntityObjects.Tests
 {
     [TestFixture]
     public class EntityTests
