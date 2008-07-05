@@ -9,6 +9,7 @@ using NHibernate.Cfg;
 using NUnit.Framework;
 using SoftwareFg.Framework.NHibernateUtils.Tests.TestEntities;
 using NHibernate.Expression;
+using System.IO;
 
 namespace SoftwareFg.Framework.NHibernateUtils.Tests
 {
@@ -20,7 +21,7 @@ namespace SoftwareFg.Framework.NHibernateUtils.Tests
 
         [TestFixtureSetUp]
         public void CreateTestDatabase()
-        {
+        {            
             log4net.Config.XmlConfigurator.Configure ();
 
             // Create an NHibernate Configuration object just to get the connection-string that we're using.
@@ -30,7 +31,7 @@ namespace SoftwareFg.Framework.NHibernateUtils.Tests
             _connectionString = cfg.Properties["hibernate.connection.connection_string"].ToString ();
 
             CreateTables ();
-            log4net.LogManager.GetLogger ("GeneralLog").Debug ("createtestdb");
+            
         }
 
         [Test]

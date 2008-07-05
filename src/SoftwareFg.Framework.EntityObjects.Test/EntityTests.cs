@@ -38,5 +38,24 @@ namespace SoftwareFg.Framework.EntityObjects.Tests
 
             Assert.IsFalse (p.Equals (a), "p should not be equal to a, since the 2 objects are of a different type");
         }
+
+        [Test]
+        public void TestEntityObjectsEqualityUsingOverloadedOperators()
+        {
+            Person p = new Person (1);
+            Person p2 = new Person (1);
+
+            Assert.IsTrue (p == p2, "The 2 objects should be considered equal, since they have the same ID.");
+        }
+
+        [Test]
+        public void TextEntityObjectsInequalityUsingOverloadedOperators()
+        {
+            Person p = new Person (1);
+            Person p2 = new Person (2);
+
+            Assert.IsTrue (p != p2, "The 2 objects should not be considered equal, since they have different ids.");
+        }
+
     }
 }

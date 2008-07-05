@@ -21,6 +21,8 @@ namespace SoftwareFg.Framework.EntityObjects
             }
         }
 
+        #region Equals and Hashcode
+
         public override bool Equals( object obj )
         {
             Entity<TId> other = obj as Entity<TId>;
@@ -67,6 +69,22 @@ namespace SoftwareFg.Framework.EntityObjects
 
             return Id.GetHashCode ();
         }
+
+        #endregion
+
+        #region Operator overloads
+
+        public static bool operator ==( Entity<TId> left, Entity<TId> right )
+        {
+            return Equals (left, right);
+        }
+
+        public static bool operator !=( Entity<TId> left, Entity<TId> right )
+        {
+            return Equals (left, right) == false;
+        }
+
+        #endregion
 
     }
 }
