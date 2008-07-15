@@ -55,23 +55,15 @@ namespace SoftwareFg.Framework.NHibernateUtils
 
             _sessionFactory = cfg.BuildSessionFactory ();
         }
-
-
+        
         /// <summary>
-        /// Allows you to register an interceptor on a new session.  This may not be called if there is already
-        /// an open session attached to the HttpContext.  If you have an interceptor to be used, modify
-        /// the HttpModule to call this before calling BeginTransaction().
+        /// Gets or sets the NHibernate IInterceptor that must be used in every ISession that is opened/created via the
+        /// SessionManager.
         /// </summary>
-        public void RegisterInterceptor( IInterceptor interceptor )
+        public IInterceptor DefaultInterceptor
         {
-            ISession session = ContextSession;
-
-            if( session != null && session.IsOpen )
-            {
-                throw new CacheException ("You cannot register an interceptor once a session has already been opened");
-            }
-
-            GetSession (interceptor);
+            get;
+            set;
         }
 
         /// <summary>
@@ -81,7 +73,7 @@ namespace SoftwareFg.Framework.NHibernateUtils
         /// <returns>An ISession.</returns>
         public ISession GetSession()
         {
-            return GetSession (null);
+            return GetSession (DefaultInterceptor);
         }
 
         /// <summary>

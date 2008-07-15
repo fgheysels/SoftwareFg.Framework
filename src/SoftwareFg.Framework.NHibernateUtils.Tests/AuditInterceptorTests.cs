@@ -29,7 +29,7 @@ namespace SoftwareFg.Framework.NHibernateUtils.Tests
             p.Name = "Frederik";
             p.DateOfBirth = new DateTime (1978, 12, 14);
 
-            SessionManager.Instance.RegisterInterceptor (new AuditInterceptor ());
+            SessionManager.Instance.DefaultInterceptor = new AuditInterceptor ();            
 
             SessionManager.Instance.GetSession ().Save (p);
 
@@ -38,6 +38,11 @@ namespace SoftwareFg.Framework.NHibernateUtils.Tests
             SessionManager.Instance.GetSession ().Flush ();
 
             SessionManager.Instance.CloseSession ();
+        }
+
+        [Test]
+        public void TestCastleIoCInterceptor()
+        {
         }
 
         [TestFixtureTearDown]
