@@ -41,12 +41,8 @@ namespace SoftwareFg.Framework.NHibernateUtils
         /// <summary>
         /// Assists with ensuring thread-safe, lazy singleton
         /// </summary>
-        private class Nested
-        {
-            static Nested()
-            {
-            }
-
+        private static class Nested
+        {            
             internal static readonly SessionManager SessionManager = new SessionManager ();
         }
 
@@ -249,7 +245,7 @@ namespace SoftwareFg.Framework.NHibernateUtils
             }
         }
 
-        private bool IsInWebContext()
+        private static bool IsInWebContext()
         {
             return HttpContext.Current != null;
         }
