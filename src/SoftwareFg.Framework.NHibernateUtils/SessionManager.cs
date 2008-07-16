@@ -3,6 +3,7 @@ using NHibernate;
 using NHibernate.Cache;
 using SoftwareFg.Framework.Infrastructure.DesignByContract;
 using System.Web;
+using System;
 
 
 namespace SoftwareFg.Framework.NHibernateUtils
@@ -15,7 +16,7 @@ namespace SoftwareFg.Framework.NHibernateUtils
     /// </summary>
     public sealed class SessionManager
     {
-       
+
         #region Thread-safe, lazy Singleton
 
         /// <summary>
@@ -42,7 +43,7 @@ namespace SoftwareFg.Framework.NHibernateUtils
         /// Assists with ensuring thread-safe, lazy singleton
         /// </summary>
         private static class Nested
-        {            
+        {
             internal static readonly SessionManager SessionManager = new SessionManager ();
         }
 
@@ -55,7 +56,7 @@ namespace SoftwareFg.Framework.NHibernateUtils
 
             _sessionFactory = cfg.BuildSessionFactory ();
         }
-        
+
         /// <summary>
         /// Gets or sets the NHibernate IInterceptor that must be used in every ISession that is opened/created via the
         /// SessionManager.
@@ -67,28 +68,20 @@ namespace SoftwareFg.Framework.NHibernateUtils
         }
 
         /// <summary>
-        /// Get an ISession for the default database.
+        /// Starts a new Session
         /// </summary>
-        /// If there's already an ISession active, this session is returned, otherwise, a new ISession is started.
-        /// <returns>An ISession.</returns>
-        public ISession GetSession()
-        {
-            return GetSession (DefaultInterceptor);
-        }
-
-        /// <summary>
-        /// Gets a session with or without an interceptor.  This method is not called directly; instead,
-        /// it gets invoked from other public methods.
-        /// </summary>
-        private ISession GetSession( IInterceptor interceptor )
+        /// <remarks>This method needs to be called before you can use the Session.  Nested Sessions are not supported</remarks>
+        /// <exception cref="InvalidOperationException">An InvalidOperationException is thrown when StartSession is called while
+        /// there is already another Session active.</exception>
+        public void StartSession()
         {
             ISession session = ContextSession;
 
             if( session == null )
             {
-                if( interceptor != null )
+                if( DefaultInterceptor != null )
                 {
-                    session = _sessionFactory.OpenSession (interceptor);
+                    session = _sessionFactory.OpenSession (DefaultInterceptor);
                 }
                 else
                 {
@@ -97,11 +90,32 @@ namespace SoftwareFg.Framework.NHibernateUtils
 
                 ContextSession = session;
             }
+            else
+            {
+                throw new InvalidOperationException ("There is already a Session running, nested Sessions are not supported.");
+            }
 
-            Check.Ensure (session != null, "session was null");
-
-            return session;
+            Check.Ensure (session != null, "The session is null");            
         }
+
+        /// <summary>
+        /// Gets the ISession object that is currently active.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">An InvalidOperationException is thrown when there is no Session active.</exception>        
+        public ISession Session
+        {
+            get
+            {
+                ISession session = ContextSession;
+
+                if( session == null )
+                {
+                    throw new InvalidOperationException (@"Currently, there's no Session active.  Did you forget to call StartSession?");
+                }
+
+                return session;
+            }
+        }        
 
         /// <summary>
         /// Flushes anything left in the session and closes the connection.
@@ -119,14 +133,30 @@ namespace SoftwareFg.Framework.NHibernateUtils
             ContextSession = null;
         }
 
+        /// <summary>
+        /// Starts a new Transaction.
+        /// </summary>
+        /// <remarks>When this call is made when no Session is currently active, the SessionManager will make sure
+        /// that a new Session is started.</remarks>
         public void BeginTransaction()
         {
             ITransaction transaction = ContextTransaction;
 
             if( transaction == null )
             {
-                transaction = GetSession ().BeginTransaction ();
+                ISession session = ContextSession;
+
+                if( session == null )
+                {
+                    this.StartSession ();
+                }
+
+                transaction = this.Session.BeginTransaction ();
                 ContextTransaction = transaction;
+            }
+            else
+            {
+                throw new InvalidOperationException ("There is already a Transaction active, nested transactions are not supported.");
             }
         }
 

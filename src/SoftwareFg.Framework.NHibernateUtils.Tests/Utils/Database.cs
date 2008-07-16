@@ -35,9 +35,15 @@ namespace SoftwareFg.Framework.NHibernateUtils.Tests.Utils
         {
             OpenConnection ();
 
-            SqlCommand cmd = new SqlCommand (createTableStatement, _conn);
-            cmd.ExecuteNonQuery ();
-
+            try
+            {
+                SqlCommand cmd = new SqlCommand (createTableStatement, _conn);
+                cmd.ExecuteNonQuery ();
+            }
+            catch( Exception ex )
+            {
+                Console.WriteLine (ex.Message);
+            }
         }
 
         public static void DropTable( string tableName )

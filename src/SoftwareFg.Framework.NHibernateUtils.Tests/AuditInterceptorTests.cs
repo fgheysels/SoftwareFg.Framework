@@ -29,13 +29,15 @@ namespace SoftwareFg.Framework.NHibernateUtils.Tests
             p.Name = "Frederik";
             p.DateOfBirth = new DateTime (1978, 12, 14);
 
-            SessionManager.Instance.DefaultInterceptor = new AuditInterceptor ();            
+            SessionManager.Instance.DefaultInterceptor = new AuditInterceptor ();
 
-            SessionManager.Instance.GetSession ().Save (p);
+            SessionManager.Instance.StartSession ();
+
+            SessionManager.Instance.Session.Save (p);
 
             Console.WriteLine (p.Name + " " + p.DateOfBirth + " " + p.Created + " " + p.Updated);
 
-            SessionManager.Instance.GetSession ().Flush ();
+            SessionManager.Instance.Session.Flush ();
 
             SessionManager.Instance.CloseSession ();
         }
@@ -52,7 +54,8 @@ namespace SoftwareFg.Framework.NHibernateUtils.Tests
 
         private string GetCreateAuditablePersonTableStatement()
         {
-            return "IF NOT EXISTS ( SELECT * FROM sysobjects WHERE [name] = \'AuditPerson\' ) \n" +
+            return 
+                "IF NOT EXISTS ( SELECT * FROM sysobjects WHERE [name] = \'AuditPerson\' ) \n" +
                 "BEGIN \n" +
                 "       CREATE TABLE AuditPerson ( \n" +
                 "       PersonId INT IDENTITY (1,1), \n" +
