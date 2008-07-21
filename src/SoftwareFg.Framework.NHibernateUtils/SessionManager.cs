@@ -126,8 +126,14 @@ namespace SoftwareFg.Framework.NHibernateUtils
 
             if( session != null && session.IsOpen )
             {
-                session.Flush ();
-                session.Close ();
+                try
+                {
+                    session.Flush ();
+                }
+                finally
+                {
+                    session.Close ();
+                }
             }
 
             ContextSession = null;
@@ -201,7 +207,18 @@ namespace SoftwareFg.Framework.NHibernateUtils
             }
             finally
             {
-                CloseSession ();
+                // We cannot call 'CloseSession here', since CloseSession will Flush the session as well.  However, Flushing
+                // the session when an exception has occured when NHibernate saves objects (for instance, an exception that
+                // is thrown when a unique constraint is violated), an AssertionFailure will be thrown.
+                // to avoid this, we close the Session 'manually', without flushing.
+                ISession session = ContextSession;
+
+                if( session != null && session.IsOpen )
+                {
+                    session.Close ();                    
+                }
+
+                ContextSession = null;
             }
         }
 
