@@ -48,8 +48,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuditInterceptor.cs" />
+    <Compile Include="Cfg\NHibernateConfigurationManager.cs" />
+    <Compile Include="Cfg\NHibernateConfigurationSettings.cs" />
+    <Compile Include="IRepository.cs" />
+    <Compile Include="Repository.cs" />
     <Compile Include="SessionManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnitOfWork.cs" />
+    <Compile Include="UnitOfWorkFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SoftwareFg.Framework.EntityObjects\SoftwareFg.Framework.EntityObjects.csproj">

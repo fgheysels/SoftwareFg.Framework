@@ -31,15 +31,15 @@ namespace SoftwareFg.Framework.NHibernateUtils.Tests
 
             SessionManager.Instance.DefaultInterceptor = new AuditInterceptor ();
 
-            SessionManager.Instance.StartSession ();
+            SessionManager.Instance.StartUnitOfWork ();
 
-            SessionManager.Instance.Session.Save (p);
+            SessionManager.Instance.UnitOfWork.Save (p);
 
             Console.WriteLine (p.Name + " " + p.DateOfBirth + " " + p.Created + " " + p.Updated);
 
-            SessionManager.Instance.Session.Flush ();
+            SessionManager.Instance.UnitOfWork.Flush ();
 
-            SessionManager.Instance.CloseSession ();
+            SessionManager.Instance.CloseUnitOfWork ();
         }
 
         [Test]

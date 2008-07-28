@@ -47,15 +47,15 @@ namespace SoftwareFg.Framework.NHibernateUtils.Tests
 
             SessionManager.Instance.BeginTransaction ();
 
-            SessionManager.Instance.Session.Save (p);
-            SessionManager.Instance.Session.Save (p2);
+            SessionManager.Instance.UnitOfWork.Save (p);
+            SessionManager.Instance.UnitOfWork.Save (p2);
 
             SessionManager.Instance.CommitTransaction ();
 
             Assert.AreNotEqual (p, p2, "The 2 persons are not the same");
 
 
-            IList<Person> ps = SessionManager.Instance.Session.
+            IList<Person> ps = SessionManager.Instance.UnitOfWork.
                             CreateCriteria (typeof (Person)).Add (Expression.Eq ("Name", "Frederik")).List<Person> ();
 
             Assert.AreEqual (1, ps.Count, "There should be only one item in the collection.");
@@ -66,10 +66,10 @@ namespace SoftwareFg.Framework.NHibernateUtils.Tests
 
             ps[0].Name = "melp";
 
-            SessionManager.Instance.Session.SaveOrUpdate (ps[0]);
-            SessionManager.Instance.Session.Flush ();
+            SessionManager.Instance.UnitOfWork.SaveOrUpdate (ps[0]);
+            SessionManager.Instance.UnitOfWork.Flush ();
 
-            SessionManager.Instance.CloseSession ();
+            SessionManager.Instance.CloseUnitOfWork ();
 
 
         }

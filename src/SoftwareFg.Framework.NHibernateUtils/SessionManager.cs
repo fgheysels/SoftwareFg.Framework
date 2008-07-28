@@ -1,9 +1,8 @@
-﻿using System.Runtime.Remoting.Messaging;
-using NHibernate;
-using NHibernate.Cache;
-using SoftwareFg.Framework.Infrastructure.DesignByContract;
+﻿using System;
+using System.Runtime.Remoting.Messaging;
 using System.Web;
-using System;
+using NHibernate;
+using SoftwareFg.Framework.Infrastructure.DesignByContract;
 
 
 namespace SoftwareFg.Framework.NHibernateUtils
@@ -50,11 +49,7 @@ namespace SoftwareFg.Framework.NHibernateUtils
         #endregion
 
         private void InitSessionFactory()
-        {
-            NHibernate.Cfg.Configuration cfg = new NHibernate.Cfg.Configuration ();
-            cfg.Configure ();
-
-            _sessionFactory = cfg.BuildSessionFactory ();
+        {            
         }
 
         /// <summary>
@@ -63,67 +58,87 @@ namespace SoftwareFg.Framework.NHibernateUtils
         /// </summary>
         public IInterceptor DefaultInterceptor
         {
-            get;
-            set;
+            get
+            {
+                return UnitOfWorkFactory.Instance.DefaultInterceptor;
+            }
+            set
+            {
+                UnitOfWorkFactory.Instance.DefaultInterceptor = value;
+            }
         }
 
         /// <summary>
         /// Starts a new Session
         /// </summary>
         /// <remarks>This method needs to be called before you can use the Session.  Nested Sessions are not supported</remarks>
-        /// <exception cref="InvalidOperationException">An InvalidOperationException is thrown when StartSession is called while
+        /// <exception cref="InvalidOperationException">An InvalidOperationException is thrown when StartUnitOfWork is called while
         /// there is already another Session active.</exception>
-        public void StartSession()
+        public void StartUnitOfWork()
         {
-            ISession session = ContextSession;
+            UnitOfWork uow = ContextUnitOfWork;
 
-            if( session == null )
+            if( uow == null )
             {
-                if( DefaultInterceptor != null )
-                {
-                    session = _sessionFactory.OpenSession (DefaultInterceptor);
-                }
-                else
-                {
-                    session = _sessionFactory.OpenSession ();
-                }
-
-                ContextSession = session;
+                uow = UnitOfWorkFactory.Instance.CreateUnitOfWork ();
+                
+                ContextUnitOfWork = uow;
             }
             else
             {
-                throw new InvalidOperationException ("There is already a Session running, nested Sessions are not supported.");
+                throw new InvalidOperationException ("There is already a UnitOfWork running, nested UnitOfWorks are not supported.");
             }
 
-            Check.Ensure (session != null, "The session is null");            
+            Check.Ensure (uow != null, "The UnitOfWork is null");
         }
 
         /// <summary>
         /// Gets the ISession object that is currently active.
+        /// The ISession that is returned, is in a connected state.
         /// </summary>
         /// <exception cref="InvalidOperationException">An InvalidOperationException is thrown when there is no Session active.</exception>        
-        public ISession Session
+        public UnitOfWork UnitOfWork
         {
             get
             {
-                ISession session = ContextSession;
+                UnitOfWork uow = ContextUnitOfWork;
 
-                if( session == null )
+                if( uow == null )
                 {
-                    throw new InvalidOperationException (@"Currently, there's no Session active.  Did you forget to call StartSession?");
+                    throw new InvalidOperationException (@"Currently, there's no UnitOfWork active.  Did you forget to call StartUnitOfWork?");
                 }
 
-                return session;
+                uow.Reconnect ();
+                
+                return uow;
             }
         }
 
-        public void FlushSession()
-        {
-            ISession session = ContextSession;
+        /// <summary>
+        /// Flushes the ISession so that all changes are committed to the DB.
+        /// </summary>
+        public void Flush()
+        {            
+            UnitOfWork uow = ContextUnitOfWork;
 
-            if( session != null && session.IsOpen )
+            if( uow != null && uow.IsOpen )
             {
-                session.Flush ();
+                uow.Flush ();
+            }
+        }
+
+        /// <summary>
+        /// Disconnects the Session from the Database.
+        /// </summary>
+        /// <remarks>Disconnecting a Session means that only the underlying DB connection will be closed.  The Session itself
+        /// will remain open.</remarks>
+        public void Disconnect()
+        {            
+            UnitOfWork uow = ContextUnitOfWork;
+
+            if( uow != null && uow.IsOpen )
+            {
+                uow.Disconnect ();
             }
         }
 
@@ -131,16 +146,16 @@ namespace SoftwareFg.Framework.NHibernateUtils
         /// Closes the session, but doesn't flush it.  When you do not use transactions (Committing a transaction flushes the session),
         /// you should use call Flush yourselves.
         /// </summary>
-        public void CloseSession()
+        public void CloseUnitOfWork()
         {
-            ISession session = ContextSession;
+            UnitOfWork uow = ContextUnitOfWork;
 
-            if( session != null && session.IsOpen )
+            if( uow != null && uow.IsOpen )
             {
-                session.Close ();                
+                uow.Close ();
             }
 
-            ContextSession = null;
+            ContextUnitOfWork = null;
         }
 
         /// <summary>
@@ -154,14 +169,14 @@ namespace SoftwareFg.Framework.NHibernateUtils
 
             if( transaction == null )
             {
-                ISession session = ContextSession;
+                UnitOfWork uow = ContextUnitOfWork;
 
-                if( session == null )
+                if( uow == null )
                 {
-                    this.StartSession ();
+                    this.StartUnitOfWork ();
                 }
 
-                transaction = this.Session.BeginTransaction ();
+                transaction = this.UnitOfWork.Session.BeginTransaction ();
                 ContextTransaction = transaction;
             }
             else
@@ -211,7 +226,7 @@ namespace SoftwareFg.Framework.NHibernateUtils
             }
             finally
             {
-                CloseSession ();                
+                CloseUnitOfWork ();
             }
         }
 
@@ -251,17 +266,17 @@ namespace SoftwareFg.Framework.NHibernateUtils
         /// specific <see cref="CallContext" />.  Discussion concerning this found at 
         /// http://forum.springframework.net/showthread.php?t=572.
         /// </summary>
-        private ISession ContextSession
+        private UnitOfWork ContextUnitOfWork
         {
             get
             {
                 if( IsInWebContext () )
                 {
-                    return (ISession)HttpContext.Current.Items[SESSION_KEY];
+                    return (UnitOfWork)HttpContext.Current.Items[SESSION_KEY];
                 }
                 else
                 {
-                    return (ISession)CallContext.GetData (SESSION_KEY);
+                    return (UnitOfWork)CallContext.GetData (SESSION_KEY);
                 }
             }
             set
@@ -283,8 +298,7 @@ namespace SoftwareFg.Framework.NHibernateUtils
         }
 
         private const string TRANSACTION_KEY = "CONTEXT_TRANSACTION";
-        private const string SESSION_KEY = "CONTEXT_SESSION";
-        private ISessionFactory _sessionFactory;
+        private const string SESSION_KEY = "CONTEXT_SESSION";            
 
 
     }
