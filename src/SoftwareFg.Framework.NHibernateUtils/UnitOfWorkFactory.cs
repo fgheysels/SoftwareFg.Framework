@@ -1,4 +1,5 @@
 ﻿using NHibernate;
+using SoftwareFg.Framework.Infrastructure.DesignByContract;
 
 namespace SoftwareFg.Framework.NHibernateUtils
 {
@@ -35,7 +36,7 @@ namespace SoftwareFg.Framework.NHibernateUtils
 
         private ISessionFactory         _sessionFactory;
 
-        public IInterceptor             DefaultInterceptor
+        public IInterceptor DefaultInterceptor
         {
             get;
             set;
@@ -43,15 +44,23 @@ namespace SoftwareFg.Framework.NHibernateUtils
 
         public UnitOfWork CreateUnitOfWork()
         {
+            UnitOfWork uow;
+
             if( DefaultInterceptor == null )
             {
-                return new UnitOfWork (_sessionFactory.OpenSession ());
+                uow = new UnitOfWork (_sessionFactory.OpenSession ());
             }
             else
             {
-                return new UnitOfWork (_sessionFactory.OpenSession (DefaultInterceptor));
-
+                uow = new UnitOfWork (_sessionFactory.OpenSession (DefaultInterceptor));
             }
+
+            Check.Ensure (uow != null, "The UnitOfWork cannot be NULL");
+
+            uow.Session.FlushMode = FlushMode.Never;
+
+            return uow;
+
         }
 
         public UnitOfWork CreateUnitOfWork( IInterceptor interceptor )
