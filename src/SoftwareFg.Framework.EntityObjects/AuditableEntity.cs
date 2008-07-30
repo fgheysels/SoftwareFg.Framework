@@ -7,6 +7,7 @@ using System.Reflection;
 
 namespace SoftwareFg.Framework.EntityObjects
 {
+    [Serializable]
     public abstract class AuditableEntity<TId> : Entity<TId>, IAuditable
     {
         public DateTime Created

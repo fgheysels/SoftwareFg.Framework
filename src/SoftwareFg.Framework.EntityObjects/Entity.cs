@@ -5,6 +5,7 @@ using System.Text;
 
 namespace SoftwareFg.Framework.EntityObjects
 {
+    [Serializable]
     public abstract class Entity<TId>
     {
         private TId         _id = default (TId);

@@ -235,6 +235,16 @@ namespace SoftwareFg.Framework.NHibernateUtils
             Session.SaveOrUpdate (obj);
         }
 
+        public void SaveOrUpdateCopy( object obj )
+        {
+            Session.SaveOrUpdateCopy (obj);
+        }
+
+        public void SaveOrUpdateCopy( object obj, object id )
+        {
+            Session.SaveOrUpdateCopy (obj, id);
+        }
+
         public IQuery CreateQuery( string queryString )
         {            
             return Session.CreateQuery (queryString);
@@ -242,7 +252,7 @@ namespace SoftwareFg.Framework.NHibernateUtils
 
         public ICriteria CreateCriteria( Type persistentClass )
         {
-            return CreateCriteria (persistentClass, string.Empty);
+            return Session.CreateCriteria (persistentClass);
         }
 
         public ICriteria CreateCriteria(Type persistentClass, string alias)

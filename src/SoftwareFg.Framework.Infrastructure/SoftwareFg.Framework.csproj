@@ -8,8 +8,8 @@
     <ProjectGuid>{8403D6CC-6A80-48FB-94D4-1C976E911050}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SoftwareFg.Framework.Infrastructure</RootNamespace>
-    <AssemblyName>SoftwareFg.Framework.Infrastructure</AssemblyName>
+    <RootNamespace>SoftwareFg.Framework</RootNamespace>
+    <AssemblyName>SoftwareFg.Framework</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

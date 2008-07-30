@@ -62,9 +62,9 @@
       <Project>{02B3AE1E-D75D-402D-A13A-E76DF81087B8}</Project>
       <Name>SoftwareFg.Framework.EntityObjects</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SoftwareFg.Framework.Infrastructure\SoftwareFg.Framework.Infrastructure.csproj">
+    <ProjectReference Include="..\SoftwareFg.Framework.Infrastructure\SoftwareFg.Framework.csproj">
       <Project>{8403D6CC-6A80-48FB-94D4-1C976E911050}</Project>
-      <Name>SoftwareFg.Framework.Infrastructure</Name>
+      <Name>SoftwareFg.Framework</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
