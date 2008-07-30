@@ -1,5 +1,5 @@
 ﻿using NHibernate;
-using SoftwareFg.Framework.Infrastructure.DesignByContract;
+using SoftwareFg.Framework;
 
 namespace SoftwareFg.Framework.NHibernateUtils
 {

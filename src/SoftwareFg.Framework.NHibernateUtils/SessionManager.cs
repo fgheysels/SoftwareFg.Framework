@@ -2,7 +2,7 @@
 using System.Runtime.Remoting.Messaging;
 using System.Web;
 using NHibernate;
-using SoftwareFg.Framework.Infrastructure.DesignByContract;
+using SoftwareFg.Framework;
 
 
 namespace SoftwareFg.Framework.NHibernateUtils

@@ -35,6 +35,12 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Runtime.Serialization">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.ServiceModel">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -45,13 +51,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DesignByContract\AssertionException.cs" />
-    <Compile Include="DesignByContract\Check.cs" />
-    <Compile Include="DesignByContract\DesignByContractException.cs" />
-    <Compile Include="DesignByContract\InvariantException.cs" />
-    <Compile Include="DesignByContract\PostconditionException.cs" />
-    <Compile Include="DesignByContract\PreconditionException.cs" />
+    <Compile Include="AssertionException.cs" />
+    <Compile Include="Check.cs" />
+    <Compile Include="DesignByContractException.cs" />
+    <Compile Include="InvariantException.cs" />
+    <Compile Include="PostconditionException.cs" />
+    <Compile Include="PreconditionException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Serialization\NetDataContractOperationBehavior.cs" />
+    <Compile Include="Serialization\UseNetDataContractSerializerAttribute.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
