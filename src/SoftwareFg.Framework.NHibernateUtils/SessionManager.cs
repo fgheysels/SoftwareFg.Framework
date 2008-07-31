@@ -188,11 +188,13 @@ namespace SoftwareFg.Framework.NHibernateUtils
         public void CommitTransaction()
         {
             ITransaction transaction = ContextTransaction;
-
+                        
             try
             {
                 if( IsInTransaction () )
                 {
+                    Flush ();
+
                     transaction.Commit ();
                     ContextTransaction = null;
                 }
