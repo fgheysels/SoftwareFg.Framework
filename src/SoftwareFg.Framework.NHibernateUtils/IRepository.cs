@@ -32,6 +32,8 @@ namespace SoftwareFg.Framework.NHibernateUtils
 
         T SaveOrUpdate( T entity );
 
+        T SaveOrUpdateCopy( T entity );
+
         void Update( T entity );
 
         ICollection<T> FindAll();
