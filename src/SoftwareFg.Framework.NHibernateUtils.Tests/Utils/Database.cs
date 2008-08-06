@@ -18,7 +18,7 @@ namespace SoftwareFg.Framework.NHibernateUtils.Tests.Utils
             Configuration cfg = new Configuration ();
             cfg.Configure ();
 
-            string connectionString = cfg.Properties["hibernate.connection.connection_string"].ToString ();
+            string connectionString = cfg.Properties["connection.connection_string"].ToString ();
 
             _conn = new SqlConnection (connectionString);
         }
@@ -43,6 +43,7 @@ namespace SoftwareFg.Framework.NHibernateUtils.Tests.Utils
             catch( Exception ex )
             {
                 Console.WriteLine (ex.Message);
+                throw;
             }
         }
 

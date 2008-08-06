@@ -8,9 +8,9 @@ using System.Data.SqlClient;
 using NHibernate.Cfg;
 using NUnit.Framework;
 using SoftwareFg.Framework.NHibernateUtils.Tests.TestEntities;
-using NHibernate.Expression;
 using System.IO;
 using SoftwareFg.Framework.NHibernateUtils.Tests.Utils;
+using NHibernate.Criterion;
 
 namespace SoftwareFg.Framework.NHibernateUtils.Tests
 {
@@ -88,7 +88,7 @@ namespace SoftwareFg.Framework.NHibernateUtils.Tests
         private string GetCreatePersonsTableSqlString()
         {
             return
-                "IF NOT EXISTS ( SELET * FROM sysobjects WHERE [name] = \'Persons\' ) \n" +
+                "IF NOT EXISTS ( SELECT * FROM sysobjects WHERE [name] = \'Persons\' ) \n" +
                 "BEGIN \n" +
                 "   CREATE TABLE Persons ( \n" +
                 "   [PersonId] INT IDENTITY (1,1), \n" +

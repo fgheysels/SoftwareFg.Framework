@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using NHibernate.Expression;
 using NHibernate.Type;
 using NHibernate;
+using NHibernate.Criterion;
 
 namespace SoftwareFg.Framework.NHibernateUtils
 {
