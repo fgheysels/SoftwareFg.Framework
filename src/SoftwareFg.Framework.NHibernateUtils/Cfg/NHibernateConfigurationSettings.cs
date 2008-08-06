@@ -37,6 +37,25 @@ namespace SoftwareFg.Framework.NHibernateUtils.Cfg
         }
 
         /// <summary>
+        /// Gets / Sets the Mapping Assembly.
+        /// </summary>
+        public string NHibernateMappingAssembly
+        {
+            get
+            {
+                XmlNode node = GetNHibernateMappingAssemblyNode ();
+
+                return node.InnerText;
+            }
+            set
+            {
+                XmlNode node = GetNHibernateMappingAssemblyNode ();
+
+                node.InnerText = value;
+            }
+        }
+
+        /// <summary>
         /// Gets the value of an NHibernate 'property' setting.
         /// </summary>
         /// <param name="key"></param>
@@ -85,35 +104,9 @@ namespace SoftwareFg.Framework.NHibernateUtils.Cfg
             }
         }
 
-        /// <summary>
-        /// Gets the Mapping Assembly if one is specified in the settings object.  If none is specified, an
-        /// empty string is returned.
-        /// </summary>
-        /// <returns></returns>
-        public string GetNHibernateMappingAssembly()
-        {
-            XmlNode node = this.GetNHibernateMappingAssemblyNode ();
 
-            if( node == null )
-            {
-                return string.Empty;
-            }
-            else
-            {
-                return node.InnerText;
-            }
-        }
 
-        /// <summary>
-        /// Sets the assembly which contains the classes that have to be mapped.
-        /// </summary>
-        /// <param name="assemblyName"></param>
-        public void SetNHibernateMappingAssembly( string assemblyName )
-        {
-            XmlNode node = this.GetNHibernateMappingAssemblyNode ();
 
-            ( (XmlElement)node ).SetAttribute ("assembly", assemblyName);
-        }
 
         private XmlElement GetNHibernateConfigurationElement()
         {
@@ -157,6 +150,8 @@ namespace SoftwareFg.Framework.NHibernateUtils.Cfg
 
                 sessionFactory.AppendChild (node);
             }
+
+            Check.Ensure (node != null, "The NHibernate Mapping node that is returned should not be NULL.");
 
             return node;
         }
