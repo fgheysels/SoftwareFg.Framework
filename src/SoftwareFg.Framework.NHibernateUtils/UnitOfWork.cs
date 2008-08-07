@@ -235,14 +235,14 @@ namespace SoftwareFg.Framework.NHibernateUtils
             Session.SaveOrUpdate (obj);
         }
 
-        public void SaveOrUpdateCopy( object obj )
+        public object SaveOrUpdateCopy( object obj )
         {
-            Session.SaveOrUpdateCopy (obj);
+            return Session.SaveOrUpdateCopy (obj);
         }
 
-        public void SaveOrUpdateCopy( object obj, object id )
+        public object SaveOrUpdateCopy( object obj, object id )
         {
-            Session.SaveOrUpdateCopy (obj, id);
+            return Session.SaveOrUpdateCopy (obj, id);
         }
 
         public IQuery CreateQuery( string queryString )
