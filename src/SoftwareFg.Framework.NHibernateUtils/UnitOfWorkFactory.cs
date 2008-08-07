@@ -26,6 +26,8 @@ namespace SoftwareFg.Framework.NHibernateUtils
 
         private UnitOfWorkFactory()
         {
+            DefaultFlushMode = FlushMode.Auto;
+
             NHibernate.Cfg.Configuration cfg = new NHibernate.Cfg.Configuration ();
             cfg.Configure ();
 
@@ -42,30 +44,47 @@ namespace SoftwareFg.Framework.NHibernateUtils
             set;
         }
 
+        public FlushMode DefaultFlushMode
+        {
+            get;
+            set;
+        }
+
         public UnitOfWork CreateUnitOfWork()
+        {
+            return CreateUnitOfWork (DefaultInterceptor, DefaultFlushMode);
+        }
+
+        public UnitOfWork CreateUnitOfWork( IInterceptor interceptor )
+        {
+            return CreateUnitOfWork (interceptor, DefaultFlushMode);
+        }
+
+        public UnitOfWork CreateUnitOfWork( FlushMode flushMode )
+        {
+            return CreateUnitOfWork (DefaultInterceptor, flushMode);
+        }
+
+        public UnitOfWork CreateUnitOfWork( IInterceptor interceptor, FlushMode flushMode )
         {
             UnitOfWork uow;
 
-            if( DefaultInterceptor == null )
+            if( interceptor == null )
             {
                 uow = new UnitOfWork (_sessionFactory.OpenSession ());
             }
             else
             {
-                uow = new UnitOfWork (_sessionFactory.OpenSession (DefaultInterceptor));
+                uow = new UnitOfWork (_sessionFactory.OpenSession (interceptor));
             }
-
+            
             Check.Ensure (uow != null, "The UnitOfWork cannot be NULL");
 
-            uow.Session.FlushMode = FlushMode.Never;
+            uow.Session.FlushMode = flushMode;
 
             return uow;
 
         }
-
-        public UnitOfWork CreateUnitOfWork( IInterceptor interceptor )
-        {
-            return new UnitOfWork (_sessionFactory.OpenSession (interceptor));
-        }
+        
     }
 }
