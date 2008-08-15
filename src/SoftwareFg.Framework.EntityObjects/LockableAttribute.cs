@@ -42,6 +42,7 @@ namespace SoftwareFg.Framework.EntityObjects
                         return _property;
                     }
                 }
+
                 throw new ArgumentException ("No Property found for the given setter-method " + setterMethod.Name);                
             }
 
