@@ -174,10 +174,10 @@ namespace SoftwareFg.Framework.NHibernateUtils
         /// <summary>
         /// Remove an object from the UnitOfWork.
         /// </summary>
-        /// <param name="obj"></param>
-        public void RemoveFromUnitOfWork( object obj )
+        /// <param name="entity"></param>
+        public void RemoveFromUnitOfWork( object entity )
         {
-            Session.Evict (obj);
+            Session.Evict (entity);
         }
 
         /// <summary>
@@ -194,55 +194,65 @@ namespace SoftwareFg.Framework.NHibernateUtils
         /// <summary>
         /// Checks whether the UnitOfWork contains the given object.
         /// </summary>
-        /// <param name="obj"></param>
+        /// <param name="entity"></param>
         /// <returns></returns>
-        public bool Contains( object obj )
+        public bool Contains( object entity )
         {
-            return Session.Contains (obj);
+            return Session.Contains (entity);
         }
         
         /// <summary>
         /// Deletes the given object from the DataStore
         /// </summary>
-        /// <param name="obj"></param>
-        public void Delete( object obj )
+        /// <param name="entity"></param>
+        public void Delete( object entity )
         {
-            Session.Delete (obj);
+            Session.Delete (entity);
         }
 
-        public void Update( object obj, object id )
+        public void Update( object entity, object id )
         {
-            Session.Update (obj, id);
+            Session.Update (entity, id);
         }
 
-        public void Update( object obj )
+        public void Update( object entity )
         {
-            Session.Update (obj);
+            Session.Update (entity);
         }
 
-        public void Save( object obj, object id )
+        public void Save( object entity, object id )
         {
-            Session.Save (obj, id);
+            Session.Save (entity, id);
         }
 
-        public void Save( object obj )
+        public void Save( object entity )
         {
-            Session.Save (obj);
+            Session.Save (entity);
         }
 
-        public void SaveOrUpdate( object obj )
+        public void SaveOrUpdate( object entity )
         {
-            Session.SaveOrUpdate (obj);
+            Session.SaveOrUpdate (entity);
         }
 
-        public object SaveOrUpdateCopy( object obj )
+        public object SaveOrUpdateCopy( object entity )
         {
-            return Session.SaveOrUpdateCopy (obj);
+            return Session.SaveOrUpdateCopy (entity);
         }
 
-        public object SaveOrUpdateCopy( object obj, object id )
+        public T SaveOrUpdateCopy<T>( T entity )
         {
-            return Session.SaveOrUpdateCopy (obj, id);
+            return (T)Session.SaveOrUpdateCopy (entity);
+        }
+
+        public object SaveOrUpdateCopy( object entity, object id )
+        {
+            return Session.SaveOrUpdateCopy (entity, id);
+        }
+
+        public T SaveOrUpdateCopy<T>( T entity, object id )
+        {
+            return (T)Session.SaveOrUpdateCopy (entity, id);
         }
 
         public IQuery CreateQuery( string queryString )
@@ -275,7 +285,7 @@ namespace SoftwareFg.Framework.NHibernateUtils
         private bool _isDisposed = false;
 
         ~UnitOfWork()
-        {
+        {            
             Dispose (false);
         }
 

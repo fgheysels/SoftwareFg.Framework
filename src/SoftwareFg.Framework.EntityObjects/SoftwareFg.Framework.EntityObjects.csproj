@@ -32,6 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PostSharp.Laos, Version=1.0.10.403, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL" />
+    <Reference Include="PostSharp.Public, Version=1.0.10.385, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -49,6 +51,11 @@
     <Compile Include="AuditableEntity.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="IAuditable.cs" />
+    <Compile Include="ILockable.cs" />
+    <Compile Include="LockableAttribute.cs" />
+    <Compile Include="LockableEntity.cs" />
+    <Compile Include="LockedPropertyChangedAttemptEventArgs.cs" />
+    <Compile Include="LockInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

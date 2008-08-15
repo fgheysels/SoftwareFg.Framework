@@ -30,7 +30,10 @@ namespace SoftwareFg.Framework.NHibernateUtils
 
             NHibernate.Cfg.Configuration cfg = new NHibernate.Cfg.Configuration ();
             cfg.Configure ();
-
+            //NHibernate.Mapping.PersistentClass pc = cfg.GetClassMapping ("");
+            //pc.Table.Name;
+            //foreach( NHibernate.Mapping.Column col in pc.GetProperty("").ColumnIterator )
+            //    col.Name
             _sessionFactory = cfg.BuildSessionFactory ();
         }
 
