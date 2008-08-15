@@ -85,8 +85,6 @@ namespace SoftwareFg.Framework.EntityObjects
                 LockedPropertyChangeAttempt (this, new LockedPropertyChangedAttemptEventArgs (lockInfoObj, existingValue, proposedValue));
 
             }
-
-
         }
 
     }
