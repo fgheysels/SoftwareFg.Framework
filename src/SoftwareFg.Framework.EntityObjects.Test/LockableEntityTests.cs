@@ -109,6 +109,10 @@ namespace SoftwareFg.Framework.EntityObjects.Tests
         public void OnLockedPropertyChangeAttempt( object sender, LockedPropertyChangedAttemptEventArgs e )
         {
             _lockedPropertyChangeAttemptEventHandlerEntered = true;
+
+            Assert.AreEqual ("Frederik", e.ExistingPropertyValue);
+            Assert.AreEqual ("test", e.ProposedPropertyValue);
+
         }
     }
 }
