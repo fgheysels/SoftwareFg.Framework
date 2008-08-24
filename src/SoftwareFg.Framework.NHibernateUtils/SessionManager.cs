@@ -43,6 +43,12 @@ namespace SoftwareFg.Framework.NHibernateUtils
         /// </summary>
         private static class Nested
         {
+            static Nested()
+            {
+                // static constructor is necessary so that the compiler will not
+                // mark the type as beforefieldinit.
+            }
+
             internal static readonly SessionManager SessionManager = new SessionManager ();
         }
 
