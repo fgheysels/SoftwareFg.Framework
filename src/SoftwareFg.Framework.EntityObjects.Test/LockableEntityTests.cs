@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using System.Reflection;
 
 namespace SoftwareFg.Framework.EntityObjects.Tests
 {
     [TestFixture]
     public class LockableEntityTests
     {
-        private class LockablePerson : LockableEntity<int>
+        public class LockablePerson : LockableEntity<int>
         {
             [Lockable]
             public string Name
@@ -23,6 +24,16 @@ namespace SoftwareFg.Framework.EntityObjects.Tests
                 return this.Id;
             }
         }
+
+        //private class Melpje
+        //{
+        //    [Lockable]
+        //    public string Bliep
+        //    {
+        //        get;
+        //        set;
+        //    }
+        //}
 
         [Test]
         public void CanLockProperties()
@@ -56,7 +67,7 @@ namespace SoftwareFg.Framework.EntityObjects.Tests
         public void CannotModifyLockedProperty()
         {
             LockablePerson p = new LockablePerson ();
-            
+
             p.Name = "Somename";
 
             p.Lock ("Name");
@@ -70,7 +81,7 @@ namespace SoftwareFg.Framework.EntityObjects.Tests
         public void CanModifyUnlockedProperty()
         {
             LockablePerson p = new LockablePerson ();
-            
+
             p.Name = "Somename";
 
             p.Lock ("name");
@@ -114,5 +125,7 @@ namespace SoftwareFg.Framework.EntityObjects.Tests
             Assert.AreEqual ("test", e.ProposedPropertyValue);
 
         }
+
+        
     }
 }

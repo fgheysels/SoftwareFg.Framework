@@ -43,7 +43,7 @@ namespace SoftwareFg.Framework.EntityObjects
                     }
                 }
 
-                throw new ArgumentException ("No Property found for the given setter-method " + setterMethod.Name);                
+                throw new ArgumentException ("No Property found for the given setter-method " + setterMethod.Name);
             }
 
             return _property;
@@ -64,7 +64,7 @@ namespace SoftwareFg.Framework.EntityObjects
                     MethodInfo method = target.GetType ().GetMethod ("OnAttemptToModifyLockedProperty", BindingFlags.Instance | BindingFlags.NonPublic | ~BindingFlags.DeclaredOnly);
 
                     Action<string, object, object> converted = 
-                        (Action<string, object, object>)Delegate.CreateDelegate (typeof (Action<string, object, object>),target, method.Name);
+                        (Action<string, object, object>)Delegate.CreateDelegate (typeof (Action<string, object, object>), target, method.Name);
 
                     converted (_property.Name,
                                _property.GetValue (target, BindingFlags.GetProperty, null, new object[] { }, null),
@@ -83,27 +83,43 @@ namespace SoftwareFg.Framework.EntityObjects
             else
             {
                 base.OnInvocation (eventArgs);
-            }            
+            }
         }
 
 
+        public override bool CompileTimeValidate( System.Reflection.MethodBase method )
+        {           
+            Type theType = method.DeclaringType;
 
-        //public override bool CompileTimeValidate( System.Reflection.MethodBase method )
-        //{
-        //    if( method.DeclaringType.GetInterface (typeof (ILockable).Name) == null )
-        //    {
-        //        Message msg = new Message (SeverityType.Fatal, "MustImplementILockable",
-        //                                  "Types that support locking must implement ILockable or derive from LockableEntity",
-        //                                  method.DeclaringType.Name);
+            Type[] implementedInterfaces = theType.GetInterfaces ();
 
-        //        MessageSource.MessageSink.Write (msg);
+            bool implementsILockable = false;
 
-        //        return false;
-        //    }
-        //    else
-        //    {
-        //        return true;
-        //    }
-        //}
+            foreach( Type t in implementedInterfaces )
+            {
+                if( t.Name == typeof (ILockable).Name )
+                {
+                    implementsILockable = true;
+                    break;
+                }
+            }
+            
+            if( implementsILockable == false )
+            {                
+                Message msg = new Message (
+                    SeverityType.Fatal,
+                    "MustImplementILockable",
+                    "Types that support locking must implement ILockable or derive from LockableEntity ",                    
+                    method.DeclaringType.Name);
+
+                MessageSource.MessageSink.Write (msg);
+
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
     }
 }
