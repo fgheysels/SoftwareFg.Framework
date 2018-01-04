@@ -5,6 +5,7 @@ At the same time, I was also checking out on Aspect Oriented Programming.
 I wanted to be able to create a class where some properties can be locked at runtime so that the value of those properties could not be changed once they were locked.  
 To do that, the class has to implement a specific interface (ILockable) and the lockable properties have to be decorated with the Lockable-attribute.
 The Lockable attribute is in fact an aspect created with Postsharp that executes some extra code, determining whether or not the property has been locked.
+The aspect also has builtin compile-time validation: the Lockable attribute can only be applied to properties of a class that implement the ILockable interface.
 
 More information on how it works can be found in a [blog-article](http://fgheysels.blogspot.be/2008/08/locking-system-with-aspect-oriented.html) I wrote back in the days.
 
