@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.12
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftwareFg.Framework.NHibernateUtils", "SoftwareFg.Framework.NHibernateUtils\SoftwareFg.Framework.NHibernateUtils.csproj", "{51256693-79E5-414B-B10C-10464823AE93}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftwareFg.Framework", "SoftwareFg.Framework.Infrastructure\SoftwareFg.Framework.csproj", "{8403D6CC-6A80-48FB-94D4-1C976E911050}"
@@ -40,5 +42,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3A5A615C-CD74-42E1-9002-1EF78819B16B}
 	EndGlobalSection
 EndGlobal
