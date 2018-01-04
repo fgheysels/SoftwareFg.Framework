@@ -94,12 +94,7 @@ namespace SoftwareFg.Framework.NHibernateUtils
 
             return entity;
         }
-
-        public T SaveOrUpdateCopy( T entity )
-        {
-            return (T)Uow.SaveOrUpdateCopy (entity);            
-        }
-
+       
         /// <summary>
         /// Updates the given entity
         /// </summary>

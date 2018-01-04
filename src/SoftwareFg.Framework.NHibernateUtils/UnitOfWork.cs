@@ -234,27 +234,7 @@ namespace SoftwareFg.Framework.NHibernateUtils
         {
             Session.SaveOrUpdate (entity);
         }
-
-        public object SaveOrUpdateCopy( object entity )
-        {
-            return Session.SaveOrUpdateCopy (entity);
-        }
-
-        public T SaveOrUpdateCopy<T>( T entity )
-        {
-            return (T)Session.SaveOrUpdateCopy (entity);
-        }
-
-        public object SaveOrUpdateCopy( object entity, object id )
-        {
-            return Session.SaveOrUpdateCopy (entity, id);
-        }
-
-        public T SaveOrUpdateCopy<T>( T entity, object id )
-        {
-            return (T)Session.SaveOrUpdateCopy (entity, id);
-        }
-
+       
         public IQuery CreateQuery( string queryString )
         {            
             return Session.CreateQuery (queryString);
