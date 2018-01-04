@@ -51,7 +51,7 @@ namespace SoftwareFg.Framework.NHibernateUtils.Tests.Utils
         {
             OpenConnection ();
 
-            SqlCommand cmd = new SqlCommand (String.Format ("DROP TABLE {0}", tableName, _conn));
+            SqlCommand cmd = new SqlCommand (String.Format ("DROP TABLE {0}", tableName), _conn);
             cmd.ExecuteNonQuery ();
         }
 
