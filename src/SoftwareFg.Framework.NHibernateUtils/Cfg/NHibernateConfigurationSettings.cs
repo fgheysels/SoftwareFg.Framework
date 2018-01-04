@@ -104,10 +104,6 @@ namespace SoftwareFg.Framework.NHibernateUtils.Cfg
             }
         }
 
-
-
-
-
         private XmlElement GetNHibernateConfigurationElement()
         {
             XmlNode nhibernateConfigSettings = _doc.SelectSingleNode ("//nhib:hibernate-configuration", _nsmgr);
