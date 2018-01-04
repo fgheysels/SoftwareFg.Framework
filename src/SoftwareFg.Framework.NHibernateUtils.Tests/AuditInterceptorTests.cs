@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using NUnit.Framework;
 using SoftwareFg.Framework.NHibernateUtils.Tests.Utils;
@@ -12,11 +9,9 @@ namespace SoftwareFg.Framework.NHibernateUtils.Tests
     [TestFixture]
     public class AuditInterceptorTests
     {
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void CreateTables()
-        {
-            log4net.Config.XmlConfigurator.Configure ();
-
+        {            
             Database.CreateTable (this.GetCreateAuditablePersonTableStatement ());
 
             Database.Close ();
@@ -47,7 +42,7 @@ namespace SoftwareFg.Framework.NHibernateUtils.Tests
         {
         }
 
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void DropTables()
         {
         }

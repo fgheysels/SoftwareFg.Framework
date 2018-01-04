@@ -24,17 +24,7 @@ namespace SoftwareFg.Framework.EntityObjects.Tests
                 return this.Id;
             }
         }
-
-        //private class Melpje
-        //{
-        //    [Lockable]
-        //    public string Bliep
-        //    {
-        //        get;
-        //        set;
-        //    }
-        //}
-
+        
         [Test]
         public void CanLockProperties()
         {

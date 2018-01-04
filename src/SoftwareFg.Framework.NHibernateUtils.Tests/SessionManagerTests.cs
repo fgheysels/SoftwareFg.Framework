@@ -1,14 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using System.Data.SqlClient;
-
-using NHibernate.Cfg;
 using NUnit.Framework;
 using SoftwareFg.Framework.NHibernateUtils.Tests.TestEntities;
-using System.IO;
 using SoftwareFg.Framework.NHibernateUtils.Tests.Utils;
 using NHibernate.Criterion;
 
@@ -18,11 +11,9 @@ namespace SoftwareFg.Framework.NHibernateUtils.Tests
     public class SessionManagerTests
     {
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void CreateTestDatabase()
-        {
-            log4net.Config.XmlConfigurator.Configure ();
-
+        {            
             Database.CreateTable (this.GetCreatePersonsTableSqlString ());
 
             Database.Close ();
@@ -60,7 +51,7 @@ namespace SoftwareFg.Framework.NHibernateUtils.Tests
 
             Assert.AreEqual (1, ps.Count, "There should be only one item in the collection.");
 
-            Assert.AreEqual (p, ps[0], "The 2 object should be equal.");
+            Assert.AreEqual (p, ps[0], "The 2 objects should be equal.");
 
             Assert.AreNotEqual (ps[0], p2, "the 2 objects should not be equal.");
 
@@ -74,7 +65,7 @@ namespace SoftwareFg.Framework.NHibernateUtils.Tests
 
         }
 
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void DropTestDatabase()
         {
 
